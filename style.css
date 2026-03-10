@@ -563,6 +563,274 @@ p  { line-height:1.75; color:var(--text-mid) }
 .gallery-cta p  { font-size:.82rem; color:var(--text-light); margin-bottom:1rem; font-style:italic }
 
 /* ═══════════════════════════════════════════
+   INSTAGRAM SECTION – Redesigned
+═══════════════════════════════════════════ */
+.instagram-section {
+  background:linear-gradient(135deg,#1A0A3C 0%,#3D1070 55%,#7B2FBE 100%);
+  position:relative; overflow:hidden;
+}
+.instagram-section .section-label { color:var(--gold-light) }
+.instagram-section .section-title { color:var(--white) }
+.instagram-section .section-sub   { color:rgba(255,255,255,.65) }
+.instagram-section .section-sub a { color:var(--gold) !important }
+
+/* Big decorative IG gradient orb */
+.instagram-section::before {
+  content:''; position:absolute; top:-30%; right:-15%;
+  width:700px; height:700px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,184,0,.10) 0%,rgba(131,58,180,.12) 40%,transparent 70%);
+  pointer-events:none;
+}
+
+/* Two-column layout: left = profile card, right = mock-grid */
+.insta-layout {
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:3rem;
+  align-items:start;
+}
+
+/* ── Profile card ── */
+.insta-profile-card {
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:24px;
+  padding:2.5rem 2rem;
+  backdrop-filter:blur(16px);
+  text-align:center;
+  position:sticky; top:100px;
+}
+.insta-avatar {
+  width:90px; height:90px; border-radius:50%;
+  border:3px solid var(--gold);
+  overflow:hidden;
+  margin:0 auto 1.2rem;
+  background:rgba(255,255,255,.1);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 0 6px rgba(255,184,0,.15);
+}
+.insta-avatar img { width:100%; height:100%; object-fit:cover }
+.insta-profile-card h3 {
+  color:var(--white); font-size:1.15rem; margin-bottom:.4rem;
+}
+.insta-profile-card .insta-handle {
+  color:var(--gold); font-weight:700; font-size:1rem; margin-bottom:.5rem; display:block;
+}
+.insta-profile-card .insta-bio {
+  font-size:.85rem; color:rgba(255,255,255,.6); line-height:1.6; margin-bottom:1.5rem;
+}
+.insta-stats-row {
+  display:flex; justify-content:center; gap:2rem; margin-bottom:1.75rem;
+  padding:.85rem 0; border-top:1px solid rgba(255,255,255,.1); border-bottom:1px solid rgba(255,255,255,.1);
+}
+.insta-stat-num  { display:block; font-family:'Poppins',sans-serif; font-size:1.35rem; font-weight:800; color:var(--gold) }
+.insta-stat-lbl  { font-size:.72rem; color:rgba(255,255,255,.55); font-weight:600; letter-spacing:.06em }
+.btn-insta {
+  display:inline-flex; align-items:center; gap:.55rem;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  color:var(--white) !important;
+  padding:.75rem 1.6rem; border-radius:50px;
+  font-family:'Poppins',sans-serif; font-weight:700; font-size:.9rem;
+  transition:var(--transition); width:100%; justify-content:center;
+  box-shadow:0 6px 24px rgba(131,58,180,.4);
+}
+.btn-insta:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(131,58,180,.55); filter:brightness(1.08) }
+
+/* ── Mock post grid ── */
+.insta-posts-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.insta-post {
+  aspect-ratio:1/1;
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  cursor:pointer;
+  transition:var(--transition);
+}
+.insta-post:hover { transform:scale(1.04); box-shadow:0 12px 40px rgba(0,0,0,.4) }
+.insta-post:hover .insta-post-overlay { opacity:1 }
+
+/* Gradient placeholder tiles (no real images needed) */
+.insta-post-bg {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.2rem;
+}
+.insta-post-bg.g1 { background:linear-gradient(135deg,#1A0A3C,#7B2FBE) }
+.insta-post-bg.g2 { background:linear-gradient(135deg,#FFB800,#E09900) }
+.insta-post-bg.g3 { background:linear-gradient(135deg,#833ab4,#fd1d1d) }
+.insta-post-bg.g4 { background:linear-gradient(135deg,#0F0A1E,#2D1B69) }
+.insta-post-bg.g5 { background:linear-gradient(135deg,#10B981,#059669) }
+.insta-post-bg.g6 { background:linear-gradient(135deg,#F97316,#EA580C) }
+
+.insta-post-overlay {
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.55);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .3s ease;
+  color:var(--white); font-size:.82rem; font-weight:600; text-align:center;
+  padding:.75rem; flex-direction:column; gap:.4rem;
+}
+.insta-post-overlay svg { opacity:.9 }
+
+/* CTA strip below grid */
+.insta-grid-cta {
+  margin-top:1.5rem;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+}
+.insta-grid-cta p { color:rgba(255,255,255,.6); font-size:.88rem }
+.insta-grid-cta strong { color:var(--white) }
+
+/* ── Mobile ── */
+@media (max-width:900px) {
+  .insta-layout { grid-template-columns:1fr }
+  .insta-profile-card { position:static; max-width:420px; margin:0 auto }
+}
+@media (max-width:480px) {
+  .insta-posts-grid { grid-template-columns:repeat(3,1fr); gap:8px }
+}
+
+/* ═══════════════════════════════════════════
+   AREAS WE SERVE – Redesigned WOW
+═══════════════════════════════════════════ */
+.areas-section {
+  background:var(--off-white);
+  position:relative; overflow:hidden;
+}
+.areas-section::before {
+  content:''; position:absolute; bottom:-20%; left:-10%;
+  width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,184,0,.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.areas-section::after {
+  content:''; position:absolute; top:-15%; right:-8%;
+  width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(circle,rgba(123,47,190,.06) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+/* Map + content side-by-side */
+.areas-body {
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:3.5rem;
+  align-items:start;
+}
+
+/* Area chips – pill grid */
+.areas-grid {
+  display:flex; flex-wrap:wrap; gap:.85rem;
+  margin-bottom:2.5rem;
+}
+.area-chip {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.65rem 1.4rem; border-radius:50px;
+  font-family:'Poppins',sans-serif; font-size:.88rem; font-weight:600;
+  background:var(--white);
+  border:2px solid rgba(123,47,190,.18);
+  color:var(--text-dark);
+  box-shadow:0 3px 14px rgba(123,47,190,.09);
+  transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.area-chip::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,var(--purple),var(--purple-light));
+  opacity:0; transition:opacity .3s ease;
+}
+.area-chip span { position:relative; z-index:1 }
+.area-chip:hover {
+  color:var(--white);
+  border-color:var(--purple);
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(123,47,190,.28);
+}
+.area-chip:hover::before { opacity:1 }
+.area-chip .pin-icon { font-size:1rem; position:relative; z-index:1 }
+
+/* Schools section */
+.schools-wrap { margin-bottom:2.5rem }
+.schools-label {
+  font-family:'Poppins',sans-serif; font-size:.78rem; font-weight:700;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--purple);
+  margin-bottom:1.2rem; display:block;
+}
+.schools-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem;
+}
+.school-tag {
+  display:flex; align-items:center; gap:.6rem;
+  background:var(--white); border-radius:10px;
+  padding:.7rem 1rem; font-size:.85rem; font-weight:600; color:var(--text-dark);
+  border:1px solid rgba(123,47,190,.12);
+  box-shadow:0 2px 10px rgba(123,47,190,.07);
+  transition:var(--transition);
+}
+.school-tag:hover {
+  border-color:var(--gold);
+  box-shadow:0 4px 18px rgba(255,184,0,.2);
+  transform:translateX(4px);
+}
+
+/* CTA buttons */
+.areas-cta { padding-top:.5rem }
+.areas-cta > p { color:var(--text-light); font-size:.92rem; margin-bottom:1.5rem }
+.areas-cta .hero-btns { justify-content:flex-start }
+
+/* Right column – mini map card */
+.areas-map-card {
+  background:var(--white);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 12px 50px rgba(123,47,190,.14);
+  border:1px solid rgba(123,47,190,.1);
+  position:sticky; top:100px;
+}
+.areas-map-card iframe {
+  width:100%; height:340px; border:none; display:block;
+}
+.areas-map-footer {
+  padding:1.2rem 1.5rem;
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+}
+.areas-map-footer p { color:rgba(255,255,255,.85); font-size:.85rem; margin:0 }
+.areas-map-footer strong { color:var(--gold) }
+.areas-map-addr {
+  display:flex; align-items:center; gap:.5rem;
+  color:rgba(255,255,255,.9); font-size:.85rem;
+}
+.areas-map-addr svg { flex-shrink:0 }
+.areas-map-footer a {
+  display:inline-flex; align-items:center; gap:.4rem;
+  color:var(--white); font-size:.82rem; font-weight:700;
+  background:rgba(255,255,255,.15); padding:.45rem 1rem; border-radius:50px;
+  border:1px solid rgba(255,255,255,.25); transition:var(--transition);
+  white-space:nowrap;
+}
+.areas-map-footer a:hover { background:var(--gold); color:var(--text-dark); border-color:var(--gold) }
+
+/* Responsive */
+@media (max-width:960px) {
+  .areas-body { grid-template-columns:1fr }
+  .areas-map-col { order:-1 }
+  .areas-map-card { position:static }
+  .areas-map-card iframe { height:280px }
+  .areas-cta .hero-btns { justify-content:center }
+}
+@media (max-width:600px) {
+  .areas-grid { gap:.6rem }
+  .area-chip  { padding:.55rem 1.1rem; font-size:.82rem }
+  .schools-grid { grid-template-columns:1fr 1fr }
+}
+
+/* ═══════════════════════════════════════════
    TESTIMONIALS
 ═══════════════════════════════════════════ */
 .testimonials { background:linear-gradient(160deg,#FAF9FF 0%,#EDE9FF 100%) }
