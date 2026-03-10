@@ -382,7 +382,7 @@ p  { line-height:1.75; color:var(--text-mid) }
 .course-bullets li::before { content:'✓'; position:absolute; left:0; color:var(--gold-dark); font-weight:800 }
 
 /* ═══════════════════════════════════════════
-   RESULTS / ACHIEVERS
+   RESULTS / ACHIEVERS – Infinite Scroll Carousel
 ═══════════════════════════════════════════ */
 .results {
   background:linear-gradient(160deg,#0F0A1E 0%,#1D0E3D 50%,#2D1B69 100%);
@@ -396,20 +396,48 @@ p  { line-height:1.75; color:var(--text-mid) }
   background:radial-gradient(circle,rgba(255,184,0,.06) 0%,transparent 60%);
   pointer-events:none;
 }
-.results-grid {
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.75rem;
+
+/* Carousel track wrapper – single row with fade edges */
+.results-carousel-wrap {
+  position:relative;
+  overflow:hidden;
+  /* fade left & right edges */
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  padding:1.5rem 0;
 }
+.results-carousel-wrap:hover .results-track { animation-play-state:paused }
+
+/* Infinite scroll track – duplicated cards for seamless loop */
+.results-track {
+  display:flex;
+  gap:1.75rem;
+  width:max-content;
+  animation:scrollTrack 32s linear infinite;
+}
+@keyframes scrollTrack {
+  from { transform:translateX(0) }
+  to   { transform:translateX(-50%) }
+}
+
+/* Individual card */
 .topper-card {
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,184,0,.2);
-  border-radius:var(--radius); padding:2rem; text-align:center;
+  border-radius:var(--radius);
+  padding:2rem;
+  text-align:center;
   backdrop-filter:blur(10px);
-  transition:var(--transition); position:relative; overflow:hidden;
+  transition:var(--transition);
+  position:relative; overflow:hidden;
+  /* Fixed width so all cards are same size */
+  width:clamp(240px, 28vw, 300px);
+  flex-shrink:0;
 }
 .topper-card:hover {
   border-color:var(--gold);
-  box-shadow:0 0 30px rgba(255,184,0,.2), 0 20px 60px rgba(0,0,0,.3);
-  transform:translateY(-6px);
+  box-shadow:0 0 30px rgba(255,184,0,.25), 0 20px 60px rgba(0,0,0,.3);
+  transform:translateY(-6px) scale(1.02);
 }
 .topper-glow {
   position:absolute; inset:0;
@@ -444,6 +472,16 @@ p  { line-height:1.75; color:var(--text-mid) }
 }
 .topper-quote::before { content:'"'; margin-right:.2rem }
 .topper-quote::after  { content:'"'; margin-left:.2rem  }
+
+/* Speed hint on mobile */
+@media (max-width:768px) {
+  .results-track { animation-duration:22s }
+  .topper-card   { width:clamp(220px, 72vw, 270px) }
+  .results-carousel-wrap {
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+  }
+}
 
 /* ═══════════════════════════════════════════
    NOTES / STUDY MATERIAL
@@ -690,6 +728,19 @@ p  { line-height:1.75; color:var(--text-mid) }
 .float-btn.shake { animation:shake .7s ease }
 
 /* ═══════════════════════════════════════════
+   GLOBAL MOUSE-PARALLAX PARTICLE CANVAS
+═══════════════════════════════════════════ */
+#mouseParticleCanvas {
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;          /* above body bg, below all content */
+  opacity:1;
+}
+
+/* ═══════════════════════════════════════════
    MOBILE MENU OVERLAY
 ═══════════════════════════════════════════ */
 .nav-overlay {
@@ -711,6 +762,9 @@ p  { line-height:1.75; color:var(--text-mid) }
   .contact-grid   { grid-template-columns:1fr }
   .map-frame-wrap { height:350px }
   .footer-grid    { grid-template-columns:1fr 1fr; gap:2.5rem }
+
+  /* Carousel: slightly faster on tablet */
+  .results-track  { animation-duration:26s }
 }
 
 /* ═══════════════════════════════════════════
@@ -741,8 +795,15 @@ p  { line-height:1.75; color:var(--text-mid) }
 
   /* Grids single col */
   .courses-grid,
-  .results-grid,
   .video-grid   { grid-template-columns:1fr }
+
+  /* Results carousel mobile tuning */
+  .results-track { animation-duration:20s; gap:1.2rem }
+  .topper-card   { width:clamp(220px, 75vw, 270px); padding:1.5rem }
+  .results-carousel-wrap {
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+  }
 
   /* Notes */
   .notes-grid   { grid-template-columns:1fr }
@@ -766,4 +827,9 @@ p  { line-height:1.75; color:var(--text-mid) }
   .float-btn   { width:50px; height:50px }
   .floating-btns { bottom:1.5rem; right:1rem }
   .about-badge-float { right:-10px; bottom:-10px }
+
+  /* Even smaller cards on tiny phones */
+  .topper-card   { width:clamp(200px, 82vw, 250px); padding:1.25rem }
+  .topper-score  { font-size:1.6rem }
+  .results-track { animation-duration:18s }
 }

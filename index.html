@@ -87,6 +87,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Global mouse-parallax particle canvas (sits behind everything) -->
+  <canvas id="mouseParticleCanvas" aria-hidden="true"></canvas>
 
   <!-- ═══════════════════════════════════════════
        NAVBAR
@@ -352,81 +354,144 @@
         <h2 class="section-title">Our <span class="gold">Achievers</span></h2>
         <p class="section-sub">Real students. Real results. Real inspiration.</p>
       </div>
-      <div class="results-grid">
+      <div class="results-carousel-wrap reveal-up">
+        <div class="results-track" id="resultsTrack">
 
-        <div class="topper-card">
-          <div class="topper-glow"></div>
-          <div class="topper-photo-wrap">
-            <div class="topper-photo-placeholder">RS</div>
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap">
+              <div class="topper-photo-placeholder">RS</div>
+            </div>
+            <div class="topper-badge">⭐ Top Scorer</div>
+            <h3 class="topper-name">Riya Sharma</h3>
+            <p class="topper-exam">ICSE 2024 · Class X</p>
+            <div class="topper-score">96.4%</div>
+            <p class="topper-quote">Cognition helped me understand concepts deeply. My teachers made even the toughest topics feel easy.</p>
           </div>
-          <div class="topper-badge">⭐ Top Scorer</div>
-          <h3 class="topper-name">Riya Sharma</h3>
-          <p class="topper-exam">ICSE 2024 · Class X</p>
-          <div class="topper-score">96.4%</div>
-          <p class="topper-quote">Cognition helped me understand concepts deeply. My teachers made even the toughest topics feel easy.</p>
-        </div>
 
-        <div class="topper-card">
-          <div class="topper-glow"></div>
-          <div class="topper-photo-wrap">
-            <div class="topper-photo-placeholder">AM</div>
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap">
+              <div class="topper-photo-placeholder">AM</div>
+            </div>
+            <div class="topper-badge">🥇 Rank 1</div>
+            <h3 class="topper-name">Arjun Mukherjee</h3>
+            <p class="topper-exam">WBJEE 2024</p>
+            <div class="topper-score">AIR 142</div>
+            <p class="topper-quote">The mock test series at Cognition was the game changer. My exam-day confidence was unmatched.</p>
           </div>
-          <div class="topper-badge">🥇 Rank 1</div>
-          <h3 class="topper-name">Arjun Mukherjee</h3>
-          <p class="topper-exam">WBJEE 2024</p>
-          <div class="topper-score">AIR 142</div>
-          <p class="topper-quote">The mock test series at Cognition was the game changer. My exam-day confidence was unmatched.</p>
-        </div>
 
-        <div class="topper-card">
-          <div class="topper-glow"></div>
-          <div class="topper-photo-wrap">
-            <div class="topper-photo-placeholder">PD</div>
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap">
+              <div class="topper-photo-placeholder">PD</div>
+            </div>
+            <div class="topper-badge">🌟 Star Student</div>
+            <h3 class="topper-name">Priya Das</h3>
+            <p class="topper-exam">ISC 2024 · Class XII</p>
+            <div class="topper-score">94.8%</div>
+            <p class="topper-quote">Small batches meant my doubts were never left unanswered. I felt genuinely cared for.</p>
           </div>
-          <div class="topper-badge">🌟 Star Student</div>
-          <h3 class="topper-name">Priya Das</h3>
-          <p class="topper-exam">ISC 2024 · Class XII</p>
-          <div class="topper-score">94.8%</div>
-          <p class="topper-quote">Small batches meant my doubts were never left unanswered. I felt genuinely cared for.</p>
-        </div>
 
-        <div class="topper-card">
-          <div class="topper-glow"></div>
-          <div class="topper-photo-wrap">
-            <div class="topper-photo-placeholder">SB</div>
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap">
+              <div class="topper-photo-placeholder">SB</div>
+            </div>
+            <div class="topper-badge">🚀 JEE Star</div>
+            <h3 class="topper-name">Sayan Banerjee</h3>
+            <p class="topper-exam">JEE Mains 2024</p>
+            <div class="topper-score">98 Pctile</div>
+            <p class="topper-quote">The JEE Foundation programme built my analytical thinking from scratch. Highly recommended!</p>
           </div>
-          <div class="topper-badge">🚀 JEE Star</div>
-          <h3 class="topper-name">Sayan Banerjee</h3>
-          <p class="topper-exam">JEE Mains 2024</p>
-          <div class="topper-score">98 Pctile</div>
-          <p class="topper-quote">The JEE Foundation programme built my analytical thinking from scratch. Highly recommended!</p>
-        </div>
 
-        <div class="topper-card">
-          <div class="topper-glow"></div>
-          <div class="topper-photo-wrap">
-            <div class="topper-photo-placeholder">AC</div>
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap">
+              <div class="topper-photo-placeholder">AC</div>
+            </div>
+            <div class="topper-badge">💫 Excellence</div>
+            <h3 class="topper-name">Ananya Chatterjee</h3>
+            <p class="topper-exam">ICSE 2023 · Class X</p>
+            <div class="topper-score">97.2%</div>
+            <p class="topper-quote">Regular testing at Cognition kept me sharp all year. I walked into the exam hall with zero anxiety.</p>
           </div>
-          <div class="topper-badge">💫 Excellence</div>
-          <h3 class="topper-name">Ananya Chatterjee</h3>
-          <p class="topper-exam">ICSE 2023 · Class X</p>
-          <div class="topper-score">97.2%</div>
-          <p class="topper-quote">Regular testing at Cognition kept me sharp all year. I walked into the exam hall with zero anxiety.</p>
-        </div>
 
-        <div class="topper-card">
-          <div class="topper-glow"></div>
-          <div class="topper-photo-wrap">
-            <div class="topper-photo-placeholder">RG</div>
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap">
+              <div class="topper-photo-placeholder">RG</div>
+            </div>
+            <div class="topper-badge">🎯 Achiever</div>
+            <h3 class="topper-name">Rohan Ghosh</h3>
+            <p class="topper-exam">WBJEE 2023</p>
+            <div class="topper-score">AIR 89</div>
+            <p class="topper-quote">Mentors here don't just teach — they inspire. I wouldn't be where I am without Cognition.</p>
           </div>
-          <div class="topper-badge">🎯 Achiever</div>
-          <h3 class="topper-name">Rohan Ghosh</h3>
-          <p class="topper-exam">WBJEE 2023</p>
-          <div class="topper-score">AIR 89</div>
-          <p class="topper-quote">Mentors here don't just teach — they inspire. I wouldn't be where I am without Cognition.</p>
-        </div>
 
-      </div>
+          <!-- Duplicate set for seamless infinite loop -->
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap"><div class="topper-photo-placeholder">RS</div></div>
+            <div class="topper-badge">⭐ Top Scorer</div>
+            <h3 class="topper-name">Riya Sharma</h3>
+            <p class="topper-exam">ICSE 2024 · Class X</p>
+            <div class="topper-score">96.4%</div>
+            <p class="topper-quote">Cognition helped me understand concepts deeply. My teachers made even the toughest topics feel easy.</p>
+          </div>
+
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap"><div class="topper-photo-placeholder">AM</div></div>
+            <div class="topper-badge">🥇 Rank 1</div>
+            <h3 class="topper-name">Arjun Mukherjee</h3>
+            <p class="topper-exam">WBJEE 2024</p>
+            <div class="topper-score">AIR 142</div>
+            <p class="topper-quote">The mock test series at Cognition was the game changer. My exam-day confidence was unmatched.</p>
+          </div>
+
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap"><div class="topper-photo-placeholder">PD</div></div>
+            <div class="topper-badge">🌟 Star Student</div>
+            <h3 class="topper-name">Priya Das</h3>
+            <p class="topper-exam">ISC 2024 · Class XII</p>
+            <div class="topper-score">94.8%</div>
+            <p class="topper-quote">Small batches meant my doubts were never left unanswered. I felt genuinely cared for.</p>
+          </div>
+
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap"><div class="topper-photo-placeholder">SB</div></div>
+            <div class="topper-badge">🚀 JEE Star</div>
+            <h3 class="topper-name">Sayan Banerjee</h3>
+            <p class="topper-exam">JEE Mains 2024</p>
+            <div class="topper-score">98 Pctile</div>
+            <p class="topper-quote">The JEE Foundation programme built my analytical thinking from scratch. Highly recommended!</p>
+          </div>
+
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap"><div class="topper-photo-placeholder">AC</div></div>
+            <div class="topper-badge">💫 Excellence</div>
+            <h3 class="topper-name">Ananya Chatterjee</h3>
+            <p class="topper-exam">ICSE 2023 · Class X</p>
+            <div class="topper-score">97.2%</div>
+            <p class="topper-quote">Regular testing at Cognition kept me sharp all year. I walked into the exam hall with zero anxiety.</p>
+          </div>
+
+          <div class="topper-card">
+            <div class="topper-glow"></div>
+            <div class="topper-photo-wrap"><div class="topper-photo-placeholder">RG</div></div>
+            <div class="topper-badge">🎯 Achiever</div>
+            <h3 class="topper-name">Rohan Ghosh</h3>
+            <p class="topper-exam">WBJEE 2023</p>
+            <div class="topper-score">AIR 89</div>
+            <p class="topper-quote">Mentors here don't just teach — they inspire. I wouldn't be where I am without Cognition.</p>
+          </div>
+
+        </div><!-- /.results-track -->
+      </div><!-- /.results-carousel-wrap -->
     </div>
   </section>
 

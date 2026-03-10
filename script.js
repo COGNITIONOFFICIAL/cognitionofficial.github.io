@@ -15,13 +15,13 @@
     setupScrollReveal();
     setupParallax();
     createParticles();
+    setupMouseParticleCanvas();
     setupTestimonialSlider();
     setupNoteTabs();
     setupFloatingButtons();
     setupSectionSpy();
     setupCounters();
     setupCourseCardStagger();
-    setupTopperCardStagger();
     setupScrollIndicator();
     setupSmoothScroll();
     setupScrollBgShift();
@@ -349,6 +349,133 @@
   }
 
   /* ═══════════════════════════════════════════
+     GLOBAL MOUSE-PARALLAX PARTICLE CANVAS
+     Floating orbs across the whole page that
+     drift toward the cursor and gently orbit.
+  ═══════════════════════════════════════════ */
+  function setupMouseParticleCanvas() {
+    const canvas = document.getElementById('mouseParticleCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let W, H;
+    let mouseX = -9999, mouseY = -9999;
+    let raf;
+
+    const COLORS = [
+      'rgba(255,184,0,',   // gold
+      'rgba(155,77,202,',  // purple-light
+      'rgba(255,212,94,',  // gold-light
+      'rgba(123,47,190,',  // purple
+      'rgba(255,255,255,', // white
+    ];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    /* Particle definition */
+    function Particle() {
+      this.reset(true);
+    }
+    Particle.prototype.reset = function (init) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : -20;
+      this.r  = Math.random() * 3.5 + 1.2;
+      this.baseVx = (Math.random() - 0.5) * 0.35;
+      this.baseVy = Math.random() * 0.4 + 0.15;
+      this.vx = this.baseVx;
+      this.vy = this.baseVy;
+      this.alpha = Math.random() * 0.35 + 0.08;
+      this.targetAlpha = this.alpha;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      this.twinkleSpeed = Math.random() * 0.012 + 0.004;
+      this.twinkleDir  = 1;
+    };
+
+    /* Create pool */
+    const COUNT = Math.min(80, Math.floor(W * H / 14000));
+    const particles = Array.from({ length: COUNT }, () => new Particle());
+
+    /* Track mouse across whole page */
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
+    window.addEventListener('touchmove', e => {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }, { passive: true });
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      particles.forEach(p => {
+        /* Mouse attraction – gentle pull within 180 px */
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const ATTRACT_R = 180;
+        const REPEL_R   = 55;
+
+        if (dist < REPEL_R) {
+          /* Soft repel when very close */
+          const force = (REPEL_R - dist) / REPEL_R * 0.6;
+          p.vx -= (dx / dist) * force;
+          p.vy -= (dy / dist) * force;
+        } else if (dist < ATTRACT_R) {
+          /* Gentle attraction */
+          const force = (1 - dist / ATTRACT_R) * 0.18;
+          p.vx += (dx / dist) * force;
+          p.vy += (dy / dist) * force;
+        }
+
+        /* Drag back to base velocity */
+        p.vx += (p.baseVx - p.vx) * 0.04;
+        p.vy += (p.baseVy - p.vy) * 0.04;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        /* Twinkle alpha */
+        p.alpha += p.twinkleSpeed * p.twinkleDir;
+        if (p.alpha > p.targetAlpha + 0.12 || p.alpha < p.targetAlpha - 0.1) {
+          p.twinkleDir *= -1;
+        }
+        const a = Math.max(0, Math.min(1, p.alpha));
+
+        /* Wrap horizontally, reset when off-bottom */
+        if (p.x < -10)  p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+        if (p.y > H + 20) p.reset(false);
+
+        /* Draw glowing orb */
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3.5);
+        grad.addColorStop(0,   p.color + a + ')');
+        grad.addColorStop(0.4, p.color + (a * 0.5) + ')');
+        grad.addColorStop(1,   p.color + '0)');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      });
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    /* Pause when tab hidden (battery saving) */
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(raf);
+      else draw();
+    });
+  }
+
+  /* ═══════════════════════════════════════════
      COURSE CARD stagger on scroll
   ═══════════════════════════════════════════ */
   function setupCourseCardStagger() {
@@ -372,43 +499,6 @@
     }, { threshold: 0.1 });
 
     cards.forEach(card => observer.observe(card));
-  }
-
-  /* ═══════════════════════════════════════════
-     TOPPER CARD stagger + gold glow
-  ═══════════════════════════════════════════ */
-  function setupTopperCardStagger() {
-    const cards = document.querySelectorAll('.topper-card');
-    if (!cards.length) return;
-
-    cards.forEach((card, i) => {
-      card.style.opacity   = '0';
-      card.style.transform = 'translateY(40px)';
-      card.style.transition = `opacity .55s ease ${i * 0.1}s, transform .55s ease ${i * 0.1}s`;
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity   = '1';
-          entry.target.style.transform = 'none';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    cards.forEach(card => observer.observe(card));
-
-    // Dynamic gold-glow on mouse move
-    cards.forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width)  * 100;
-        const y = ((e.clientY - rect.top)  / rect.height) * 100;
-        card.style.setProperty('--mouse-x', x + '%');
-        card.style.setProperty('--mouse-y', y + '%');
-      });
-    });
   }
 
   /* ═══════════════════════════════════════════
